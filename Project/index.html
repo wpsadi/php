@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Contact Info</title>
+    <style>
+        body {
+
+            margin: 0px;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        main {
+            position: relative;
+            top: 0px;
+            width: 100vw;
+            height: 100vh;
+            background: url("images/logo-bg.png");
+            background-size: 100%;
+            /* opacity:0.5; */
+            filter: brightness(0.2);
+            z-index: 1;
+        }
+
+        div#cont {
+            box-sizing: border-box;
+            padding: 0px 12px;
+            padding-top: 6px;
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+            font-size: 24px;
+            font-family: sans-serif;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #box {
+            position: relative;
+            width: 600px;
+            height: 450px;
+            min-height: fit-content;
+            color: #000;
+            background: #fff;
+            border-radius: 12px;
+            padding-left: 12px;
+            padding-right: 12px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            filter: drop-shadow(2px 2px 12px 6px #696969)
+        }
+
+        h4 {
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        form {
+            font-size: 18px;
+        }
+
+        input {
+            outline-style: none;
+            width: 20rem;
+            font-size: 20px;
+            border: 2px solid #000;
+            border-radius: 4px;
+            padding: 4px 10px;
+            text-transform: uppercase;
+        }
+
+        label[for="ph"] {
+            color: rgb(0, 136, 255);
+            text-transform: uppercase;
+        }
+
+        input::placeholder {
+            font-style: italic;
+        }
+
+        input#ph::placeholder {
+            border-color: rgb(0, 136, 255);
+            color: rgb(0, 136, 255);
+        }
+
+        form>div {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            justify-content: space-around;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            background: rgb(80, 180, 80);
+            border: none;
+            font-family: monospace;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        #error-box {
+            width: 400px;
+            position: absolute;
+            background: #FFF;
+            border-radius: 12px;
+
+            /* top:30%; */
+            /* left:30%; */
+            border: 2px solid #000;
+            height: 150px;
+            overflow-y: auto;
+            display: none;
+            word-wrap: break-word;
+            box-sizing: border-box;
+            padding: 4px;
+            color: #000;
+            font-family: monospace;
+        }
+
+        li{
+            padding-left:12px;
+        }
+    </style>
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+</head>
+
+<body>
+    <main></main>
+    <div id="cont">
+        <div id="box">
+            <div id="error-box">
+
+            </div>
+            <h4>
+                Faculty Contact Information
+            </h4>
+            <form id="form" action="./index.php" method="post"><!--action="./#" method="post"-->
+                <div>
+                    <label for="school-name">SCHOOL NAME : &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input type="text" placeholder="USICT, USAR, .." name="school-name" id="school-name">
+                </div>
+
+                <br>
+                <div>
+                    <label for="sem">SEMESTER : &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input type="text" placeholder="1, 2, 3, .." name="sem" id="sem">
+                </div>
+                <br>
+
+                <div>
+                    <label for="faculty-name">FACULTY NAME : &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input type="text" placeholder="Mr. _ ,Ms. __ , .." name="faculty-name" id="faculty-name">
+                </div>
+                <br>
+
+                <div>
+                    <label for="subj">SUBJECT NAME : &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input type="text" placeholder="Communication, Maths, .." name="subj" id="subj">
+                </div>
+                <div>
+                    <label for="code">SUBJECT CODE : &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input type="text" placeholder="ICT101, .." name="code" id="code">
+                </div>
+
+                <br>
+                <div>
+                    <label for="ph">Contact No : &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input type="text" placeholder="9876543210" name="ph" id="ph">
+                </div>
+
+                <br>
+                <div>
+                    <a id="sve" class="btn">Share the CONTACT</a>
+                </div>
+
+
+            </form>
+        </div>
+
+    </div>
+
+    <script>
+        let inputs = document.getElementsByTagName("input")
+        let EB = document.getElementById("error-box")
+
+        let btn = document.getElementById("sve");
+
+        // console.log("fggufgb")
+        let status = 0
+        btn.addEventListener("click", function () {
+            EB.style.setProperty("display", "block");
+            
+            for (let x of inputs) {
+                // console.log("hi")
+                if (x.id == "school-name") {
+                    // console.log("hi")
+                    let schoolNames = (("usict usct usms usbt usem ushss usbas uslls use usap usmphs usla usmc usar usdi".toUpperCase()).split(" ")).includes(((x.value).trim()).toUpperCase())
+                    if (schoolNames == false) {
+                        let li = document.createElement("li")
+                        li.innerText = "Unrecognized School Name"
+                        EB.append(li)
+                        status = 1
+                        EB.style.setProperty("display", "block");
+                        // console.log("hi")
+                    }
+                }
+
+                if (x.id == "sem"){
+                    let semNum = "01 02 03 04 05 06 07 08 09 10".split(" ")
+
+                    if (semNum.includes(((x.value).trim()).padStart(2,"0")) == false){
+                        let li = document.createElement("li")
+                        li.innerText = "Unrecognized Sem Number"
+                        EB.append(li)
+                        status = 1
+                        
+                    }
+                    else{
+                        x.value = ((x.value).trim()).padStart(2,"0");
+                    }
+                }
+
+                if (x.id == "ph"){
+
+                    if ((((x.value).trim()).length) != 10){
+                        let li = document.createElement("li")
+                        li.innerText = "Number Exceeds 10 Digits"
+                        EB.append(li)
+                        status = 1
+                        EB.style.setProperty("display", "block");
+                    }
+                }
+                if (((x.value).trim()).length == 0){
+                    let li = document.createElement("li")
+                        li.innerText = `${x.id} can't be Empty`
+                        EB.append(li)
+                        status = 1
+                        EB.style.setProperty("display", "block");
+                }
+            }
+
+
+            if (status == 1){
+                btn.style.setProperty("display", "none");
+            }
+
+            let div = document.createElement("div")
+            div.style = `text-align:center;`
+
+            let ok = document.createElement("button")
+            if (status == 0){
+                setTimeout(function(){
+                    let form = document.getElementById("form")
+                    form.submit()
+                },500)
+
+                btn.style.setProperty("display", "none");
+                ok.innerText = "Thanks For Your Contribution"
+
+            }
+            else{
+                ok.innerText = "Ok, I Will take Care"
+            }
+            
+            ok.classList.add("btn")
+            div.append(ok)
+            EB.append(div)
+
+            ok.addEventListener("click",function(){
+                status = 0
+                btn.style.setProperty("display", "inline");
+                EB.style.setProperty("display", "none");
+                EB.innerHTML = ""
+            })
+        })
+
+
+    </script>
+
+</body>
+
+</html>
