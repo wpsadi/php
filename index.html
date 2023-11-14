@@ -46,6 +46,7 @@
             position: relative;
             width: 600px;
             height: 450px;
+            border:1px solid #000;
             min-height: fit-content;
             color: #000;
             background: #fff;
@@ -66,6 +67,7 @@
         }
 
         form {
+            width: 100%;
             font-size: 18px;
         }
 
@@ -130,8 +132,62 @@
             font-family: monospace;
         }
 
-        li{
-            padding-left:12px;
+        li {
+            padding-left: 12px;
+        }
+
+        @media screen and (max-width:550px) {
+            div#cont {
+                padding: 0px 0.75rem;
+                padding-top: 0.35rem;
+                font-size: 18px;
+            }
+
+            #box {
+                margin: 0px 5px;
+                width: 37.5rem;
+                /* height: 28.1rem; */
+                min-height: fit-content;
+                border-radius: 0.75rem;
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+
+            h4 {
+                margin-top: 6px;
+            }
+
+            form {
+                width: 100%;
+                font-size: 14px;
+            }
+
+            input {
+                width:60%;
+                font-size: 16px;
+                border: 2px solid #000;
+                border-radius: 4px;
+                padding: 2px 6px;
+            }
+
+            .btn {
+                padding: 6px 12px;
+                font-size: 17px;
+                border-radius: 6px;
+            }
+
+            #error-box {
+                width: 350px;
+                /* top:30%; */
+                /* left:30%; */
+                border: 2px solid #000;
+                height: 150px;
+                padding: 4px;
+            }
+
+            li {
+                padding-left: 8px;
+            }
         }
     </style>
     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
@@ -202,7 +258,11 @@
         let status = 0
         btn.addEventListener("click", function () {
             EB.style.setProperty("display", "block");
-            
+            let y = document.createElement("span")
+            y.innerText = "(dblclick to close)"
+            y.style = `font-size:18px;text-align:center;display:block;font-family:monospace;color:#696969`
+            EB.append(y)
+
             for (let x of inputs) {
                 // console.log("hi")
                 if (x.id == "school-name") {
@@ -218,24 +278,24 @@
                     }
                 }
 
-                if (x.id == "sem"){
+                if (x.id == "sem") {
                     let semNum = "01 02 03 04 05 06 07 08 09 10".split(" ")
 
-                    if (semNum.includes(((x.value).trim()).padStart(2,"0")) == false){
+                    if (semNum.includes(((x.value).trim()).padStart(2, "0")) == false) {
                         let li = document.createElement("li")
                         li.innerText = "Unrecognized Sem Number"
                         EB.append(li)
                         status = 1
-                        
+
                     }
-                    else{
-                        x.value = ((x.value).trim()).padStart(2,"0");
+                    else {
+                        x.value = ((x.value).trim()).padStart(2, "0");
                     }
                 }
 
-                if (x.id == "ph"){
+                if (x.id == "ph") {
 
-                    if ((((x.value).trim()).length) != 10){
+                    if ((((x.value).trim()).length) != 10) {
                         let li = document.createElement("li")
                         li.innerText = "Number Exceeds 10 Digits"
                         EB.append(li)
@@ -243,17 +303,17 @@
                         EB.style.setProperty("display", "block");
                     }
                 }
-                if (((x.value).trim()).length == 0){
+                if ((((x.value).trim()).length == 0) && (("ph sem school-name".split(" ")).includes(x.id) == false)) {
                     let li = document.createElement("li")
-                        li.innerText = `${x.id} can't be Empty`
-                        EB.append(li)
-                        status = 1
-                        EB.style.setProperty("display", "block");
+                    li.innerText = `${x.id} can't be Empty`
+                    EB.append(li)
+                    status = 1
+                    EB.style.setProperty("display", "block");
                 }
             }
 
 
-            if (status == 1){
+            if (status == 1) {
                 btn.style.setProperty("display", "none");
             }
 
@@ -261,30 +321,38 @@
             div.style = `text-align:center;`
 
             let ok = document.createElement("button")
-            if (status == 0){
-                setTimeout(function(){
+            if (status == 0) {
+                setTimeout(function () {
                     let form = document.getElementById("form")
                     form.submit()
-                },500)
+                }, 500)
 
                 btn.style.setProperty("display", "none");
                 ok.innerText = "Thanks For Your Contribution"
 
             }
-            else{
+            else {
                 ok.innerText = "Ok, I Will take Care"
             }
-            
+
             ok.classList.add("btn")
             div.append(ok)
             EB.append(div)
 
-            ok.addEventListener("click",function(){
+            ok.addEventListener("click", function () {
                 status = 0
                 btn.style.setProperty("display", "inline");
                 EB.style.setProperty("display", "none");
                 EB.innerHTML = ""
             })
+
+            EB.addEventListener("dblclick", function () {
+                status = 0
+                btn.style.setProperty("display", "inline");
+                EB.style.setProperty("display", "none");
+                EB.innerHTML = ""
+            })
+
         })
 
 
